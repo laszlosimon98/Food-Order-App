@@ -1,0 +1,12 @@
+model Order {
+    order_id     Int      @id @default(autoincrement())
+    name         String
+    address      String
+    phone_number String
+    is_completed Boolean  @default(false)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    foods        Food[]
+    user         User     @relation(fields: [user_id], references: [user_id])
+    user_id      Int
+}
