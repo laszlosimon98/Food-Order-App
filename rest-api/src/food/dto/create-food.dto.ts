@@ -27,4 +27,12 @@ export class CreateFoodDto {
   @IsNumber()
   @ApiProperty()
   category_id: number;
+
+  @IsBoolean()
+  @ApiProperty({ default: false })
+  isSpecialOffer: boolean;
+
+  @IsNumber()
+  @ApiProperty()
+  specialPrice: number;
 }

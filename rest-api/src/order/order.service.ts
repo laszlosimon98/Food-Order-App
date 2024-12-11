@@ -80,6 +80,25 @@ export class OrderService {
       },
     });
   }
+
+  async updateStatus(id: number) {
+    return await this.prisma.order.update({
+      where: {
+        order_id: id,
+      },
+      data: {
+        is_completed: true,
+      },
+      include: {
+        foods: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+  }
+
   async remove(id: number) {
     return await this.prisma.order.delete({
       where: {

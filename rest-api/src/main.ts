@@ -15,15 +15,15 @@ async function bootstrap() {
     .setDescription('Api for food order app')
     .setVersion('0.1')
     .addBearerAuth()
-    .addCookieAuth(
-      'refreshToken',
-      {
-        type: 'http',
-        in: 'Header',
-        scheme: 'Bearer',
-      },
-      'refreshToken',
-    )
+    // .addCookieAuth(
+    //   'refreshToken',
+    //   {
+    //     type: 'http',
+    //     in: 'Header',
+    //     scheme: 'Bearer',
+    //   },
+    //   'refreshToken',
+    // )
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

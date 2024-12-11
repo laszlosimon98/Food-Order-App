@@ -24,6 +24,12 @@ export class FoodEntity implements Food {
   @ApiProperty({ type: CategoryEntity })
   category: CategoryEntity;
 
+  @ApiProperty({ default: false })
+  isSpecialOffer: boolean;
+
+  @ApiProperty()
+  specialPrice: number;
+
   createdAt: Date;
   updatedAt: Date;
   category_id: number;

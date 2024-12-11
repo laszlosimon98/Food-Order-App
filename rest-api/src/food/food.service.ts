@@ -49,6 +49,10 @@ export class FoodService {
       where: {
         food_id: id,
       },
+      include: {
+        category: true,
+        reviews: true,
+      },
     });
   }
 
@@ -60,6 +64,7 @@ export class FoodService {
             orders: true,
           },
         },
+        reviews: true,
       },
       orderBy: {
         orders: {

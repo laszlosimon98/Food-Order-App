@@ -1,13 +1,16 @@
 model Food {
-    food_id       Int      @id @default(autoincrement())
-    name          String   @unique
-    description   String?
-    price         Int
-    is_spice      Boolean  @default(false)
-    is_vegetarian Boolean  @default(false)
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
-    category      Category @relation(fields: [category_id], references: [category_id])
-    category_id   Int
-    orders        Order[]
+    food_id        Int       @id @default(autoincrement())
+    name           String    @unique
+    description    String?
+    price          Int
+    is_spice       Boolean   @default(false)
+    is_vegetarian  Boolean   @default(false)
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    category       Category  @relation(fields: [category_id], references: [category_id])
+    category_id    Int
+    orders         Order[]
+    isSpecialOffer Boolean
+    specialPrice   Int
+    reviews        Reviews[]
 }

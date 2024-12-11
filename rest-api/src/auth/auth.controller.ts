@@ -54,16 +54,13 @@ export class AuthController {
   }
 
   @Public()
-  @ApiCookieAuth('refreshToken')
   @UseGuards(JwtRefreshAuthGuard)
   @Post('refresh')
   async refresh(@Request() req) {
     return await this.authService.refresh(req.user);
   }
 
-  @Public()
-  @ApiCookieAuth('refreshToken')
-  @UseGuards(JwtRefreshAuthGuard)
+  @ApiBearerAuth()
   @Post('logout')
   async logout(@Request() req) {
     return await this.authService.logout(req.user);

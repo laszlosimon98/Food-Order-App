@@ -12,7 +12,12 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { OrderEntity } from './entities/order.entity';
 import { Roles } from 'src/decorators/roles/roles.decorator';
 import { Role } from 'src/enums/roles';
@@ -21,15 +26,17 @@ import { Role } from 'src/enums/roles';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
+  @ApiOperation({ summary: 'Create new order, Role: User' })
   @ApiCreatedResponse({ type: OrderEntity })
   @ApiBearerAuth()
-  @Roles(Role.Employee, Role.User)
+  @Roles(Role.User)
   @Post()
   create(@Body() createOrderDto: CreateOrderDto, @Request() req) {
     return this.orderService.create(createOrderDto, req.user);
   }
 
-  @ApiCreatedResponse({ type: OrderEntity, isArray: true })
+  @ApiOperation({ summary: 'Get all orders by id, Role: Employee' })
+  @ApiOkResponse({ type: OrderEntity, isArray: true })
   @ApiBearerAuth()
   @Roles(Role.Employee)
   @Get()
@@ -37,15 +44,17 @@ export class OrderController {
     return this.orderService.findAll();
   }
 
-  @ApiCreatedResponse({ type: OrderEntity, isArray: true })
+  @ApiOperation({ summary: 'Get my orders by id, Role: User' })
+  @ApiOkResponse({ type: OrderEntity, isArray: true })
   @ApiBearerAuth()
-  @Roles(Role.User, Role.Employee)
+  @Roles(Role.User)
   @Get('/my-orders')
   findMyOrders(@Request() req) {
     return this.orderService.findMyOrders(req.user);
   }
 
-  @ApiCreatedResponse({ type: OrderEntity })
+  @ApiOperation({ summary: 'Get order by id, Role: User, Employee' })
+  @ApiOkResponse({ type: OrderEntity })
   @ApiBearerAuth()
   @Roles(Role.User, Role.Employee)
   @Get(':id')
@@ -53,6 +62,19 @@ export class OrderController {
     return this.orderService.findOne(id, req.user);
   }
 
+  @ApiOperation({ summary: 'Change status to complete, Role: Employee' })
+  @ApiOkResponse({ type: OrderEntity })
+  @ApiBearerAuth()
+  @Roles(Role.Employee)
+  @Patch(':id')
+  updateStatus(@Param('id', ParseIntPipe) id: number) {
+    return this.orderService.updateStatus(id);
+  }
+
+  @ApiOperation({ summary: 'Delete order by id, Role: User' })
+  @ApiOkResponse({ type: OrderEntity })
+  @ApiBearerAuth()
+  @Roles(Role.User)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.orderService.remove(id);
