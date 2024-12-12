@@ -20,9 +20,10 @@ export const fileUploadOptions: MulterOptions = {
   storage: diskStorage({
     destination: './uploads',
     filename: (req, file, callback) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 10);
+      const date = new Date();
+      const uniqueSuffix = `${date.getFullYear()}${date.getMonth()}${date.getDay()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
       const ext = extname(file.originalname);
-      const filename = `${file.originalname.split('.')[0]}-${uniqueSuffix}${ext}`;
+      const filename = `${uniqueSuffix}-${file.originalname.split('.')[0]}${ext}`;
       callback(null, filename);
     },
   }),
