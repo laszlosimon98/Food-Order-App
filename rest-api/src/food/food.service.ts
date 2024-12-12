@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FileUploadService } from 'src/file-upload/file-upload.service';
 
 @Injectable()
 export class FoodService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly fileUploadService: FileUploadService,
+  ) {}
 
   async create(createFoodDto: CreateFoodDto) {
     return await this.prisma.food.create({
@@ -84,10 +88,18 @@ export class FoodService {
   }
 
   async remove(id: number) {
-    return await this.prisma.food.delete({
-      where: {
-        food_id: id,
-      },
-    });
+    const food = await this.prisma.food
+      .delete({
+        where: {
+          food_id: id,
+        },
+      })
+      .catch(() => {
+        throw new NotFoundException(`Can not find food with id ${id}`);
+      });
+
+    await this.fileUploadService.deleteImage(food.image);
+
+    return food;
   }
 }
