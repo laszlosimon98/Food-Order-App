@@ -12,6 +12,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/roles/roles.guard';
 import { JwtAuthGuard } from './guards/auth/jwt.guard';
 import { ReviewsModule } from './reviews/reviews.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,6 +26,11 @@ import { ReviewsModule } from './reviews/reviews.module';
     OrderModule,
     FoodModule,
     ReviewsModule,
+    FileUploadModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
   ],
   controllers: [AppController],
   providers: [

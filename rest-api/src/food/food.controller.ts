@@ -26,52 +26,52 @@ import { Public } from 'src/decorators/public/public.decorator';
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
+  @Post()
+  @Roles(Role.Admin)
   @ApiOperation({ summary: 'Create food, Role: Admin' })
   @ApiCreatedResponse({ type: FoodEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Post()
   async create(@Body() createFoodDto: CreateFoodDto) {
     return await this.foodService.create(createFoodDto);
   }
 
-  @ApiOperation({ summary: 'Get all foods' })
-  @ApiOkResponse({ type: FoodEntity, isArray: true })
   @Public()
   @Get()
+  @ApiOperation({ summary: 'Get all foods' })
+  @ApiOkResponse({ type: FoodEntity, isArray: true })
   findAll() {
     return this.foodService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get food by category' })
-  @ApiOkResponse({ type: FoodEntity, isArray: true })
   @Public()
   @Get('/category/:id')
+  @ApiOperation({ summary: 'Get food by category' })
+  @ApiOkResponse({ type: FoodEntity, isArray: true })
   findByCategory(@Param('id', ParseIntPipe) category_id: number) {
     return this.foodService.findByCategory(category_id);
   }
 
-  @ApiOperation({ summary: 'Get Top 10 foods' })
-  @ApiOkResponse({ type: FoodEntity, isArray: true })
   @Public()
   @Get('/topten')
+  @ApiOperation({ summary: 'Get Top 10 foods' })
+  @ApiOkResponse({ type: FoodEntity, isArray: true })
   findTopTen() {
     return this.foodService.findTopTen();
   }
 
-  @ApiOperation({ summary: 'Get food by id' })
-  @ApiOkResponse({ type: FoodEntity })
   @Public()
   @Get(':id')
+  @ApiOperation({ summary: 'Get food by id' })
+  @ApiOkResponse({ type: FoodEntity })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.foodService.findOne(id);
   }
 
+  @Roles(Role.Admin)
+  @Patch(':id')
   @ApiOperation({ summary: 'Update food by id, Role: Admin' })
   @ApiOkResponse({ type: FoodEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateFoodDto: UpdateFoodDto,
@@ -79,11 +79,11 @@ export class FoodController {
     return this.foodService.update(id, updateFoodDto);
   }
 
+  @Roles(Role.Admin)
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete food by id, Role: Admin' })
   @ApiOkResponse({ type: FoodEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.foodService.remove(id);
   }

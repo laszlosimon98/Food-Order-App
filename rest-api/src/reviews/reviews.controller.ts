@@ -24,20 +24,20 @@ import { Role } from 'src/enums/roles';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
+  @Roles(Role.User)
+  @Post()
   @ApiOperation({ summary: 'Create new reviews, Role: User' })
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: ReviewEntity })
-  @Roles(Role.User)
-  @Post()
   create(@Body() createReviewDto: CreateReviewDto, @Request() request) {
     return this.reviewsService.create(createReviewDto, request.user);
   }
 
+  @Roles(Role.User)
+  @Patch(':id')
   @ApiOperation({ summary: 'Update reviews by id, Role: User' })
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: ReviewEntity })
-  @Roles(Role.User)
-  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateReviewDto: UpdateReviewDto,
@@ -46,11 +46,11 @@ export class ReviewsController {
     return this.reviewsService.update(id, updateReviewDto, request.user);
   }
 
+  @Roles(Role.User, Role.Admin)
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete reviews by id, Role: User, Employee' })
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: ReviewEntity })
-  @Roles(Role.User, Role.Admin)
-  @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number, @Request() request) {
     return this.reviewsService.remove(id, request.user);
   }

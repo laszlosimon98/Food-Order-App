@@ -27,36 +27,36 @@ import { Role } from 'src/enums/roles';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Roles(Role.Admin)
+  @Post()
   @ApiOperation({ summary: 'Create category, Role: Admin' })
   @ApiCreatedResponse({ type: CategoryEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
-  @ApiOperation({ summary: 'Get all categories' })
-  @ApiOkResponse({ type: CategoryEntity, isArray: true })
   @Public()
   @Get()
+  @ApiOperation({ summary: 'Get all categories' })
+  @ApiOkResponse({ type: CategoryEntity, isArray: true })
   findAll() {
     return this.categoryService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get category by id' })
-  @ApiOkResponse({ type: CategoryEntity })
   @Public()
   @Get(':id')
+  @ApiOperation({ summary: 'Get category by id' })
+  @ApiOkResponse({ type: CategoryEntity })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOne(id);
   }
 
+  @Roles(Role.Admin)
+  @Patch(':id')
   @ApiOperation({ summary: 'Update category by id, Role: Admin' })
   @ApiOkResponse({ type: CategoryEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -64,11 +64,11 @@ export class CategoryController {
     return this.categoryService.update(id, updateCategoryDto);
   }
 
+  @Roles(Role.Admin)
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete category by id, Role: Admin' })
   @ApiOkResponse({ type: CategoryEntity })
   @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.remove(id);
   }

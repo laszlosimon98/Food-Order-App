@@ -22,13 +22,16 @@ export class FoodEntity implements Food {
   is_vegetarian: boolean;
 
   @ApiProperty({ type: CategoryEntity })
-  category: CategoryEntity;
+  category?: CategoryEntity;
 
   @ApiProperty({ default: false })
   isSpecialOffer: boolean;
 
   @ApiProperty()
   specialPrice: number;
+
+  @ApiProperty()
+  image: string;
 
   createdAt: Date;
   updatedAt: Date;

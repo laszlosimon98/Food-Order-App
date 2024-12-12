@@ -25,7 +25,7 @@ export class CreateFoodDto {
   is_vegetarian: boolean;
 
   @IsNumber()
-  @ApiProperty()
+  @ApiProperty({ default: 1 })
   category_id: number;
 
   @IsBoolean()
@@ -35,4 +35,8 @@ export class CreateFoodDto {
   @IsNumber()
   @ApiProperty()
   specialPrice: number;
+
+  @IsOptional()
+  @ApiProperty()
+  image: string;
 }

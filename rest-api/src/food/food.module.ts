@@ -7,5 +7,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   controllers: [FoodController],
   providers: [FoodService],
   imports: [PrismaModule],
+  exports: [FoodService],
 })
 export class FoodModule {}

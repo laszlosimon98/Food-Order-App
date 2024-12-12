@@ -13,4 +13,5 @@ model Food {
     isSpecialOffer Boolean
     specialPrice   Int
     reviews        Reviews[]
+    image          String?
 }

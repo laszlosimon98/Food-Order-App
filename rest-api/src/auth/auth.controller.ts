@@ -35,16 +35,16 @@ export class AuthController {
   //   return await this.authService.createAdmin(user);
   // }
 
-  @ApiBearerAuth()
   @Roles(Role.Admin)
   @Post('create-employee')
+  @ApiBearerAuth()
   async createEmployee(@Body() user: AuthDTO) {
     return await this.authService.createEmployee(user);
   }
 
   @Public()
-  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @UseGuards(LocalAuthGuard)
   async login(
     @Body() _user: LoginDTO,
     @Request() req,
@@ -54,20 +54,20 @@ export class AuthController {
   }
 
   @Public()
-  @UseGuards(JwtRefreshAuthGuard)
   @Post('refresh')
+  @UseGuards(JwtRefreshAuthGuard)
   async refresh(@Request() req) {
     return await this.authService.refresh(req.user);
   }
 
-  @ApiBearerAuth()
   @Post('logout')
+  @ApiBearerAuth()
   async logout(@Request() req) {
     return await this.authService.logout(req.user);
   }
 
-  @ApiBearerAuth()
   @Get('user')
+  @ApiBearerAuth()
   async getUser(@Request() req) {
     return req.user;
   }
